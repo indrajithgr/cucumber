@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cucumber-deployment
+  labels:
+    app: cucumber-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: cucumber-app
+  template:
+    metadata:
+      labels:
+        component: cucumber-app
+    spec:
+      containers:
+        - name: cucumber-container
+          image: indrajithgr/cucumber:0.0.1
+          ##envFrom:
+          ##  - configMapRef:
+          ##     name: configmap-sme-imt-facade
+          ##  - secretRef:
+          ##      name: secrets-sme-imt-facade
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cucumber-app-service
+spec:
+  type: ClusterIP
+  selector:
+    component: cucumber-app
+  ports:
+    - port: 80
+      targetPort: 8080

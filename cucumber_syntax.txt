@@ -1,0 +1,15 @@
+Gherkin
+
+Keywords available
+
+1. Feature
+2. Background
+3. Scenario
+4. Given
+5. When
+6. Then
+7. And
+8. But
+9. Scenario outline
+10. Examples
+11. Scenario Templates

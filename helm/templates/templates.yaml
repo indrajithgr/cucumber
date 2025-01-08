@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: { { .Values.appName} }
+  labels:
+    app: { { .Values.appName} }
+  namespace:  { { .Values.targetEnvironment} }
+spec:
+  replicas: { { .Values.replicas} }
+  selector:
+    matchLabels:
+      component: { { .Values.appName} }
+  template:
+    metadata:
+      labels:
+        component: { { .Values.appName} }
+    spec:
+      containers:
+        - name: { { .Values.containerName} }
+          image: { { .Values.imageName} }
+            ##readinessProbe:
+            ##httpGet:
+            ##path: /api/actuator/health
+            ##port: 8080
+            ##initialDelaySeconds: 180
+            ##periodSeconds: 60
+          ##timeoutSeconds: 5
+          ##envFrom:
+          ##  - configMapRef:
+          ##     name: configmap-sme-imt-facade
+          ##  - secretRef:
+          ##      name: secrets-sme-imt-facade
+          imagePullPolicy: Always
+          ports:
+            - containerPort: { { .Values.containerPort} }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: { { .Values.serviceName} }
+spec:
+  type: ClusterIP
+  selector:
+    component: { { .Values.appName} }
+  ports:
+    - port: 80
+      targetPort: { { .Values.containerPort} }

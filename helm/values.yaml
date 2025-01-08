@@ -1,0 +1,7 @@
+appName: cucumber-deployment
+targetEnvironment: dev
+replicas: 1
+containerName: cucumber-container
+imageName: indrajithgr/cucumber:0.0.1
+containerPort: 8080
+serviceName: cucumber-app-service

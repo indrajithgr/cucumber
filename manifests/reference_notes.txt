@@ -1,0 +1,106 @@
+To containerise an application with docker
+https://spring.io/guides/topicals/spring-boot-docker/
+
+reference for containerisation and deployment of application
+https://www.middlewareinventory.com/blog/deploy-docker-image-to-kubernetes/
+
+docker build -t indrajithgr/cucumber .
+
+docker run -p 8080:8080 indrajithgr/cucumber
+
+docker run --name cucumber -ti --entrypoint /bin/sh indrajithgr/cucumber
+docker exec -ti cucumber /bin/sh
+
+To push to a docker hub repository
+
+docker tag local-image:tagname new-repo:tagname
+docker tag <old_tag_name> <new_tag_name>
+docker tag indrajithgr/cucumber:0.0.1 indrajithgr/cucumber:0.0.1
+
+To push to docker repository
+docker push indrajithgr/cucumber:0.0.1
+
+To pull image
+docker pull indrajithgr/cucumber:0.0.1
+
+To execute all in a folder
+kubectl apply -f <folder>
+
+to delete all
+kubectl delete -f <folder>
+
+To enable k8s dashboard
+https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+
+Deploying the Dashboard UI
+The Dashboard UI is not deployed by default. To deploy it, run the following command:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+
+Command line proxy
+You can enable access to the Dashboard using the kubectl command-line tool, by running the following command:
+
+kubectl proxy
+Kubectl will make Dashboard available at http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.
+
+Create admin user for k8s UI
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+
+After Secret is created, we can execute the following command to get the token which saved in the Secret:
+kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
+
+kubectl cluster-info
+Kubernetes control plane is running at https://kubernetes.docker.internal:6443
+CoreDNS is running at https://kubernetes.docker.internal:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To display all deployed: kubectl get all
+
+To describe an ingress service
+kubectl describe ingress <ingress-service-name>
+kubectl describe ingress ingress-service
+
+To create nginx controller(docker-desktop)
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.5/deploy/static/provider/cloud/deploy.yaml
+for minikube : minikube addons list, minikube addons enable ingress
+
+kubectl logs -n <namespace> nginx-ingress-controller
+
+# List all pods in the default namespace
+kubectl get pods
+
+# List all deployments in the default namespace
+kubectl get deployments
+
+# Create a deployment
+kubectl create deployment my-deployment --image nginx
+
+# Scale a deployment to 3 replicas
+kubectl scale deployment my-deployment --replicas=3
+
+# Delete a deployment
+kubectl delete deployment my-deployment
+
+to get ingress ip:
+kubectl get ingress
+
+How to map hostname to ip in Mac
+
+On your Mac, choose Apple menu  > System Settings, click General  in the sidebar, then click Sharing on the right. (You may need to scroll down.)
+
+Click Edit in the “Local hostname” section at the bottom of the window, then enter a new local hostname.
+
+If needed, turn on the Use dynamic global hostname option. See Use a dynamic global hostname.
+
+Click OK.
+
+youtube video for ingress configurations
+https://www.youtube.com/watch?v=v2x0f70mZec
+
+To define ingress class
+https://stackoverflow.com/questions/64781320/ingress-controller-name-for-the-ingress-class
+
+helm chart
+ 3 parts
+ metadata
+ chart values - values that can be used in helm templates
+ chart templates - k8s manifests which accepts chart values
+
