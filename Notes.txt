@@ -1,1 +1,1 @@
-git remote add ogit addrigin https://github.com/indrajithgr/cucumber.git
+git remote add origin https://github.com/indrajithgr/cucumber.git
